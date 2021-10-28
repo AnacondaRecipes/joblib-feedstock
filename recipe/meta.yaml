@@ -15,26 +15,37 @@ build:
 
 requirements:
   host:
-    - python >=3.6
+    - python
     - pip
-  run:
-    - python >=3.6
     - setuptools
+    - wheel
+  run:
+    - python >=3.7
+    # Optional dependencies are numpy, python-lz4, psutil
 
 test:
   requires:
     - pip
+    - python <3.10
   commands:
     - pip check
   imports:
     - joblib
     - joblib.externals
+    - joblib.test
+    - joblib.test.data
+    - joblib.externals.cloudpickle
+    - joblib.externals.loky
+    - joblib.externals.loky.backend
 
 about:
-  home: https://pypi.org/project/joblib/
+  home: https://joblib.readthedocs.io/en/latest/
   summary: 'Lightweight pipelining: using Python functions as pipeline jobs.'
   license: BSD-3-Clause
+  license_family: BSD
   license_file: LICENSE.txt
+  doc_url: https://joblib.readthedocs.io/en/latest/
+  dev_url: https://github.com/joblib/joblib
 
 extra:
   recipe-maintainers:

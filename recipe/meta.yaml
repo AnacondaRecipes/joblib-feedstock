@@ -27,6 +27,7 @@ test:
   requires:
     - pip
     - python <3.10
+    - pytest
   commands:
     - pip check
   imports:

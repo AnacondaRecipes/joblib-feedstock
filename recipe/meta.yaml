@@ -1,4 +1,4 @@
-{% set version = "1.0.1" %}
+{% set version = "1.1.0" %}
 
 package:
   name: joblib
@@ -6,35 +6,48 @@ package:
 
 source:
   url: https://github.com/joblib/joblib/archive/{{ version }}.tar.gz
-  sha256: c930c58f0deacd22c525a64c4ba937b521dcb77493d5887b75bb4d204aa61a26
+  sha256: 4cda464ca712a4814849c9477d7551b696ce215dc05d79fc516460814ef48f4f
 
 build:
   number: 0
+  skip: True  # [py<36]
   noarch: python
   script: {{ PYTHON }} -m pip install . -vv
 
 requirements:
   host:
-    - python >=3.6
+    - python
     - pip
-  run:
-    - python >=3.6
     - setuptools
+    - wheel
+  run:
+    - python >=3.7
+    # Optional dependencies are numpy, python-lz4, psutil
 
 test:
   requires:
     - pip
+    - python <3.10
+    - pytest
   commands:
     - pip check
   imports:
     - joblib
     - joblib.externals
+    - joblib.test
+    - joblib.test.data
+    - joblib.externals.cloudpickle
+    - joblib.externals.loky
+    - joblib.externals.loky.backend
 
 about:
-  home: https://pypi.org/project/joblib/
+  home: https://joblib.readthedocs.io/en/latest/
   summary: 'Lightweight pipelining: using Python functions as pipeline jobs.'
   license: BSD-3-Clause
+  license_family: BSD
   license_file: LICENSE.txt
+  doc_url: https://joblib.readthedocs.io/en/latest/
+  dev_url: https://github.com/joblib/joblib
 
 extra:
   recipe-maintainers:

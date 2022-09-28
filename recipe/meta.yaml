@@ -7,9 +7,11 @@ package:
 source:
   url: https://github.com/joblib/joblib/archive/{{ version }}.tar.gz
   sha256: 4cda464ca712a4814849c9477d7551b696ce215dc05d79fc516460814ef48f4f
+  patches:
+      - CVE-2022-21797.patch
 
 build:
-  number: 0
+  number: 1
   skip: True  # [py<36]
   noarch: python
   script: {{ PYTHON }} -m pip install . -vv

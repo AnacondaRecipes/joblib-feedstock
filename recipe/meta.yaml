@@ -32,7 +32,7 @@ test:
   commands:
     - pip check
     - pytest --pyargs joblib -k 'not test_memory_integration' # [not win]
-    - pytest --pyargs joblib
+    - pytest --pyargs joblib  # [win]
   imports:
     - joblib
     - joblib.externals

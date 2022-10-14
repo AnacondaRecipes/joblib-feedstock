@@ -27,7 +27,7 @@ test:
   requires:
     - pip
     - python
-    - pytest
+    - pytest  # pytest is needed for some imports
   commands:
     - pip check
   imports:

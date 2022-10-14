@@ -31,8 +31,7 @@ test:
     - pytest
   commands:
     - pip check
-    - pytest --pyargs joblib -k 'not test_memory_integration'  # [osx and arm64]
-    - pytest --pyargs joblib  # [not (osx and arm64)]
+    - pytest --pyargs joblib -k 'not test_memory_integration'
   imports:
     - joblib
     - joblib.externals

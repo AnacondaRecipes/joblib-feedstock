@@ -30,10 +30,6 @@ test:
     - pytest
   commands:
     - pip check
-    - pytest --pyargs joblib -k 'not test_memory_integration' # [linux-64 and (osx and arm64)]
-    # test_nested_parallel_warnings fails on some machines: https://github.com/joblib/joblib/issues/1307
-    - pytest --pyargs joblib -k 'not test_memory_integration and not test_nested_parallel_warnings' # [not linux-64 and not win and not (osx and arm64)]
-    - pytest --pyargs joblib  # [win]
   imports:
     - joblib
     - joblib.externals

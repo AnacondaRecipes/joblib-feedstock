@@ -26,10 +26,10 @@ requirements:
 test:
   requires:
     - pip
-    - python
     - pytest  # pytest is needed for some imports
   commands:
     - pip check
+    - python -c 'from joblib import Memory, Parallel, delayed'
   imports:
     - joblib
     - joblib.externals

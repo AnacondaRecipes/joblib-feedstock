@@ -27,6 +27,7 @@ test:
   requires:
     - pip
     - pytest  # pytest is needed for some imports
+    - python
   commands:
     - pip check
     - {{ PYTHON }} -c "from joblib import Memory, Parallel, delayed"

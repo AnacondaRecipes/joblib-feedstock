@@ -1,4 +1,4 @@
-{% set version = "1.1.0" %}
+{% set version = "1.1.1" %}
 
 package:
   name: joblib
@@ -23,16 +23,16 @@ requirements:
     - setuptools
     - wheel
   run:
-    - python >=3.7
+    - python
     # Optional dependencies are numpy, python-lz4, psutil
 
 test:
   requires:
     - pip
-    - python <3.10
-    - pytest
+    - pytest  # pytest is needed for some imports
   commands:
     - pip check
+    - python -c "from joblib import Memory, Parallel, delayed"
   imports:
     - joblib
     - joblib.externals
@@ -45,10 +45,17 @@ test:
 about:
   home: https://joblib.readthedocs.io/en/latest/
   summary: 'Lightweight pipelining: using Python functions as pipeline jobs.'
+  description: |
+    "A set of tools to provide lightweight pipelining in Python. In particular:
+    transparent disk-caching of functions and lazy re-evaluation (memoize pattern),
+    easy simple parallel computing. Joblib is optimized to be fast and robust on
+    large data in particular and has specific optimizations for numpy arrays."
   license: BSD-3-Clause
   license_family: BSD
   license_file: LICENSE.txt
+  license_url: https://github.com/joblib/joblib/blob/{{ version }}/LICENSE.txt
   doc_url: https://joblib.readthedocs.io/en/latest/
+  doc_source_url: https://github.com/joblib/joblib/tree/{{ version }}/doc
   dev_url: https://github.com/joblib/joblib
 
 extra:

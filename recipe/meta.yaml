@@ -40,7 +40,7 @@ test:
     - joblib.externals.loky.backend
 
 about:
-  home: https://joblib.readthedocs.io/en/latest/
+  home: https://joblib.readthedocs.io/
   summary: 'Lightweight pipelining: using Python functions as pipeline jobs.'
   description: |
     "A set of tools to provide lightweight pipelining in Python. In particular:
@@ -50,7 +50,7 @@ about:
   license: BSD-3-Clause
   license_family: BSD
   license_url: https://github.com/joblib/joblib/blob/{{ version }}/LICENSE.txt
-  doc_url: https://joblib.readthedocs.io/en/latest/
+  doc_url: https://joblib.readthedocs.io/
   dev_url: https://github.com/joblib/joblib
 
 extra:

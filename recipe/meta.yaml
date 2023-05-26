@@ -49,7 +49,7 @@ about:
     large data in particular and has specific optimizations for numpy arrays."
   license: BSD-3-Clause
   license_family: BSD
-  license_url: https://github.com/joblib/joblib/blob/{{ version }}/LICENSE.txt
+  license_file: LICENSE.txt
   doc_url: https://joblib.readthedocs.io/
   dev_url: https://github.com/joblib/joblib
 

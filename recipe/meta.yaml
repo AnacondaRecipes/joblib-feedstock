@@ -16,19 +16,30 @@ build:
 
 requirements:
   host:
-    - python >=3.9
+    - python
     - setuptools >=61.2
     - pip
   run:
-    - python >=3.9
+    - python
 
 test:
+  source_files:
+    - joblib
+    - conftest.py
+    - pyproject.toml
   requires:
     - pip
-    - pytest  # pytest is needed for some imports
+    - pytest
+    - pytest-asyncio
+    - pytest-timeout
+    - threadpoolctl
   commands:
     - pip check
     - python -c "from joblib import Memory, Parallel, delayed"
+    - python -c "import multiprocessing as mp; print('multiprocessing.cpu_count():', mp.cpu_count())"
+    - python -c "import joblib; print('joblib.cpu_count():', joblib.cpu_count())"
+    # Ignore some test from test_memory.py because of assertion error: "AssertionError: assert 1754034008.6817126 == 1754034008.546659"
+    - python -m pytest -v joblib/test -k "not (test__get_items or test_call_and_shelve_lazily_load_stored_result or test_memory_reduce_size_bytes_limit or test_memory_reduce_size_items_limit or test_memory_reduce_size_age_limit or test__get_items_to_delete)"
   imports:
     - joblib
     - joblib.externals

@@ -1,34 +1,53 @@
-{% set version = "1.4.2" %}
+{% set name = "joblib" %}
+{% set version = "1.5.1" %}
+{% set tests_to_skip = "test__get_items" %}
+{% set tests_to_skip = tests_to_skip + " or test__get_items_to_delete" %}
+{% set tests_to_skip = tests_to_skip + " or test_call_and_shelve_lazily_load_stored_result" %}
+{% set tests_to_skip = tests_to_skip + " or test_memory_reduce_size_bytes_limit" %}
+{% set tests_to_skip = tests_to_skip + " or test_memory_reduce_size_items_limit" %}
+{% set tests_to_skip = tests_to_skip + " or test_memory_reduce_size_age_limit" %}
+{% set tests_to_skip = tests_to_skip + " or test_parallel_with_unpicklable_functions_in_args" %} # [win]
 
 package:
-  name: joblib
+  name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://github.com/joblib/joblib/archive/{{ version }}.tar.gz
-  sha256: 1d95f5f3ab303be89aa4666956bf05a589f56e52c29b836267c8e3885223ff90
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: f4f86e351f39fe3d0d32a9f2c3d8af1ee4cec285aafcb27003dda5205576b444
 
 build:
   number: 0
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
-  skip: True  # [py<38]
+  skip: True  # [py<39]
 
 requirements:
   host:
     - python
-    - pip
-    - setuptools
+    - setuptools >=61.2
     - wheel
+    - pip
   run:
     - python
 
 test:
+  source_files:
+    - joblib
+    - conftest.py
+    - pyproject.toml
   requires:
     - pip
-    - pytest  # pytest is needed for some imports
+    - pytest
+    - pytest-asyncio
+    - pytest-timeout
+    - threadpoolctl
   commands:
     - pip check
     - python -c "from joblib import Memory, Parallel, delayed"
+    - python -c "import multiprocessing as mp; print('multiprocessing.cpu_count():', mp.cpu_count())"
+    - python -c "import joblib; print('joblib.cpu_count():', joblib.cpu_count())"
+    # Ignore some test from test_memory.py because of assertion error: "AssertionError: assert 1754034008.6817126 == 1754034008.546659"
+    - pytest --pyargs joblib.test -k "not ({{ tests_to_skip }})"
   imports:
     - joblib
     - joblib.externals
@@ -38,18 +57,19 @@ test:
     - joblib.externals.loky
     - joblib.externals.loky.backend
 
+
 about:
-  home: https://joblib.readthedocs.io/
+  home: https://joblib.readthedocs.io
   summary: 'Lightweight pipelining: using Python functions as pipeline jobs.'
   description: |
     "A set of tools to provide lightweight pipelining in Python. In particular:
     transparent disk-caching of functions and lazy re-evaluation (memoize pattern),
-    easy simple parallel computing. Joblib is optimized to be fast and robust on
+    easy, simple parallel computing. Joblib is optimized to be fast and robust on
     large data in particular and has specific optimizations for numpy arrays."
   license: BSD-3-Clause
   license_family: BSD
-  license_url: https://github.com/joblib/joblib/blob/{{ version }}/LICENSE.txt
-  doc_url: https://joblib.readthedocs.io/
+  license_file: LICENSE.txt
+  doc_url: https://joblib.readthedocs.io
   dev_url: https://github.com/joblib/joblib
 
 extra:

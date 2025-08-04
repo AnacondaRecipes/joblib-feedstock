@@ -6,6 +6,7 @@
 {% set tests_to_skip = tests_to_skip + " or test_memory_reduce_size_bytes_limit" %}
 {% set tests_to_skip = tests_to_skip + " or test_memory_reduce_size_items_limit" %}
 {% set tests_to_skip = tests_to_skip + " or test_memory_reduce_size_age_limit" %}
+{% set tests_to_skip = tests_to_skip + " or test_parallel_with_unpicklable_functions_in_args" %} # [win64]
 
 package:
   name: {{ name|lower }}

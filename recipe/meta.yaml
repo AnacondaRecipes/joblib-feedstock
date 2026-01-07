@@ -1,7 +1,5 @@
 {% set name = "joblib" %}
 {% set version = "1.5.3" %}
-{% set deselect_tests = " --deselect=test_memory.py" %}
-{% set deselect_tests = deselect_tests + " --deselect=test_memory_async.py" %}
 
 package:
   name: {{ name|lower }}
@@ -21,11 +19,13 @@ requirements:
     - pip
     - python
     - setuptools >=77.0.3
-    - cython
   run:
     - python
 
 # Disabled unstable tests with timelimits:
+{% set deselect_tests = " --deselect=test_memory.py" %}
+{% set deselect_tests = deselect_tests + " --deselect=test_memory_async.py" %}
+
 test:
   source_files:
     - conftest.py

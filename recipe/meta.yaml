@@ -1,6 +1,5 @@
 {% set name = "joblib" %}
-{% set version = "1.5.2" %}
-
+{% set version = "1.5.3" %}
 
 package:
   name: {{ name|lower }}
@@ -8,19 +7,18 @@ package:
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 3faa5c39054b2f03ca547da9b2f52fde67c06240c31853f306aea97f13647b55
+  sha256: 8561a3269e6801106863fd0d6d84bb737be9e7631e33aaed3fb9ce5953688da3
 
 build:
   number: 0
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
-  skip: True  # [py<39]
+  skip: true  # [py<39]
 
 requirements:
   host:
     - pip
     - python
-    - wheel
-    - setuptools >=61.2
+    - setuptools >=77.0.3
   run:
     - python
 
@@ -52,7 +50,6 @@ test:
     - pytest-asyncio
     - pytest-timeout
     - threadpoolctl
-
 
 about:
   home: https://joblib.readthedocs.io

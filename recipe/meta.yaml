@@ -1,30 +1,31 @@
 {% set name = "joblib" %}
-{% set version = "1.5.3" %}
+{% set version = "1.6.0" %}
+{% set deselect_tests = " --deselect=test_memory.py" %}
+{% set deselect_tests = deselect_tests + " --deselect=test_memory_async.py" %}
 
+# Disabled unstable tests with timelimits:
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 8561a3269e6801106863fd0d6d84bb737be9e7631e33aaed3fb9ce5953688da3
+  sha256: 2ccc96785b12046c08fd6d55839c12857831b54a3c1673ffadd2f04bfc4eda03
 
 build:
   number: 0
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
-  skip: true  # [py<39]
+  skip: true  # [py<310]
 
 requirements:
   host:
     - pip
     - python
     - setuptools >=77.0.3
+    - cython
   run:
     - python
-
-# Disabled unstable tests with timelimits:
-{% set deselect_tests = " --deselect=test_memory.py" %}
-{% set deselect_tests = deselect_tests + " --deselect=test_memory_async.py" %}
+    - cloudpickle >=3.0
 
 test:
   source_files:

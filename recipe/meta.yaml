@@ -1,18 +1,18 @@
 {% set name = "joblib" %}
-{% set version = "1.5.3" %}
+{% set version = "1.6.0" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
   url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
-  sha256: 8561a3269e6801106863fd0d6d84bb737be9e7631e33aaed3fb9ce5953688da3
+  sha256: 2ccc96785b12046c08fd6d55839c12857831b54a3c1673ffadd2f04bfc4eda03
 
 build:
   number: 0
   script: {{ PYTHON }} -m pip install . --no-deps --no-build-isolation -vv
-  skip: true  # [py<39]
+  skip: true  # [py<310]
 
 requirements:
   host:
@@ -21,6 +21,7 @@ requirements:
     - setuptools >=77.0.3
   run:
     - python
+    - cloudpickle >=3.0
 
 # Disabled unstable tests with timelimits:
 {% set deselect_tests = " --deselect=test_memory.py" %}
@@ -33,17 +34,16 @@ test:
   imports:
     - joblib
     - joblib.externals
-    - joblib.test
-    - joblib.test.data
-    - joblib.externals.cloudpickle
     - joblib.externals.loky
     - joblib.externals.loky.backend
+    - joblib.test
+    - joblib.test.data
   commands:
     - pip check
     - python -c "from joblib import Memory, Parallel, delayed"
     - python -c "import multiprocessing as mp; print('multiprocessing.cpu_count():', mp.cpu_count())"
     - python -c "import joblib; print('joblib.cpu_count():', joblib.cpu_count())"
-    - pytest --pyargs joblib.test {{ deselect_tests }}
+    - pytest --pyargs joblib.test {{ deselect_tests }} -vv
   requires:
     - pip
     - pytest
